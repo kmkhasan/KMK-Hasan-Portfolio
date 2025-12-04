@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K M Khadimul Hasan - Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d1f; /* Deep Dark Background */
+            color: #f0f0f5;
+            overflow-x: hidden;
+            scroll-behavior: smooth; /* Ensure Smooth Scroll is enabled */
+        }
+
+        /* Custom Accent Colors */
+        .accent-color { color: #00d2ff; }
+        .accent-bg { background-color: #00d2ff; }
+        .accent-hover:hover { background-color: #00bfff; }
+        .border-accent { border-color: #00d2ff; }
+
+        /* Hyper-Modern Glow Effect (Buttons & Borders) */
+        .glowing-btn {
+            box-shadow: 0 0 5px #00d2ff, 0 0 10px #00d2ff, 0 0 20px rgba(0, 210, 255, 0.4);
+            transition: all 0.3s ease;
+            will-change: transform, box-shadow;
+        }
+        .glowing-btn:hover {
+            box-shadow: 0 0 10px #00d2ff, 0 0 30px #00d2ff, 0 0 60px rgba(0, 210, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        /* Interactive Input Focus Effect */
+        .interactive-input {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(0, 210, 255, 0);
+        }
+        .interactive-input:focus {
+            outline: none;
+            border-color: #00d2ff;
+            box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.3);
+        }
+        
+        /* Animated Background Blob/Particles */
+        .bg-gradient-animated {
+            background: linear-gradient(-45deg, #0d0d1f, #1a1a3a, #0d0d1f, #2c2c4f);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Scroll Animation (PowerPoint Reveal/Zoom-in) */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px) scale(0.95); /* Start slightly zoomed out and low */
+            transition: opacity 1s ease-out, transform 1s ease-out; /* Longer transition for dramatic effect */
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1;
+            transform: translateY(0) scale(1); /* Reveal/Zoom-in to full size */
+        }
+
+        /* Hero Text Animation - Typing Effect FIX */
+        .typing-text-container {
+            overflow: hidden;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .typing-text {
+            white-space: nowrap; 
+            overflow: hidden; 
+            border-right: 0.15em solid #00d2ff; 
+            width: 0; 
+            animation: typing 3s steps(40, end) forwards,
+                       blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00d2ff; }
+        }
+
+        /* Card Hover 3D Tilt Effect */
+        .animated-card {
+            background: #1a1a3a;
+            border: 1px solid #00d2ff40;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .animated-card:hover {
+            transform: translateY(-8px) scale(1.02) rotateX(2deg) rotateY(2deg) translateZ(10px);
+            box-shadow: 0 15px 50px rgba(0, 210, 255, 0.5);
+        }
+        
+        /* Apply dynamic card styling to specific components */
+        .certificate-card {
+            @apply animated-card;
+        }
+
+        .testimonial-card {
+            @apply animated-card;
+            /* Reset fixed scroll-snap to enable continuous marquee effect */
+            scroll-snap-align: none;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+        }
+        .testimonial-card:hover {
+             transform: translateY(-5px) scale(1.01) rotateX(1deg) rotateY(1deg) translateZ(5px);
+        }
+
+        /* Moving Object/Particle Animation within Cards */
+        .animated-card::before, .animated-card::after {
+             z-index: 1; /* Ensure particles are behind content */
+        }
+        .animated-card::before {
+            content: '';
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            width: 8px;
+            height: 8px;
+            background: #00d2ff;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: move-particle 10s linear infinite alternate;
+        }
+
+        .animated-card::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            right: 15%;
+            width: 5px;
+            height: 5px;
+            background: #00d2ff;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: move-particle-slow 15s linear infinite reverse;
+        }
+
+        @keyframes move-particle {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(100px, 50px) scale(1.2); opacity: 0.5; }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        @keyframes move-particle-slow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-80px, -40px) scale(0.8); opacity: 0.4; }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* Profile Image Pulse */
+        .profile-pulse {
+            animation: glow-pulse 3s infinite alternate;
+        }
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.4); }
+            100% { box-shadow: 0 0 15px 5px rgba(0, 210, 255, 0.8); }
+        }
+
+        /* Footer Border Pulse */
+        .footer-pulse-border {
+            border-top: 1px solid #00d2ff;
+            animation: border-pulse 4s infinite alternate;
+        }
+        @keyframes border-pulse {
+            0% { box-shadow: 0 0 5px rgba(0, 210, 255, 0.1); }
+            100% { box-shadow: 0 0 20px rgba(0, 210, 255, 0.5); }
+        }
+        
+        /* Social Icon Hover Animation */
+        .social-icon-hover {
+            transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform, color, box-shadow;
+        }
+        .social-icon-hover:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+            color: #ffffff;
+        }
+
+        /* FIX for Expertise Section Layout */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 2rem;
+        }
+        @media (min-width: 768px) {
+            .expertise-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        @media (min-width: 1024px) {
+            .expertise-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                /* Ensure all rows have equal height for visual consistency */
+                grid-auto-rows: 1fr;
+            }
+        }
+        .expertise-card {
+            height: 100%; /* Important for grid-auto-rows to work */
+        }
+        
+        /* Marquee Animation CSS for Testimonials */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            /* Ensures scrollbar is hidden if visible */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .marquee-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .marquee-content {
+            display: flex;
+            width: fit-content; /* Allows all duplicated cards to be side-by-side */
+            animation: marquee-scroll 40s linear infinite; /* Control speed here */
+        }
+        
+        /* Pause marquee on hover for better readability */
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        /* Calculate the total width of the content and move it */
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Scrolls exactly half the total width */
+        }
+
+    </style>
+</head>
+<body class="bg-gradient-animated min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-black/40 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#hero" class="text-2xl font-extrabold accent-color tracking-wider">KHADIMUL</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex">
+                    <a href="#about" class="ml-4 px-3 py-2 rounded-md text-sm font-medium hover:accent-color transition duration-300">About</a>
+                    <a href="#expertise" class="ml-4 px-3 py-2 rounded-md text-sm font-medium hover:accent-color transition duration-300">Expertise</a>
+                    <a href="#certificates" class="ml-4 px-3 py-2 rounded-md text-sm font-medium hover:accent-color transition duration-300">Certificates</a>
+                    <a href="#testimonials" class="ml-4 px-3 py-2 rounded-md text-sm font-medium hover:accent-color transition duration-300">Reviews</a>
+                    <a href="#contact" class="ml-4 px-3 py-2 rounded-md text-sm font-medium hover:accent-color transition duration-300">Contact</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition duration-300">
+                        <!-- Menu Icon (Hamburger) -->
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium hover:accent-color transition duration-300" onclick="closeMobileMenu()">About</a>
+                <a href="#expertise" class="block px-3 py-2 rounded-md text-base font-medium hover:accent-color transition duration-300" onclick="closeMobileMenu()">Expertise</a>
+                <a href="#certificates" class="block px-3 py-2 rounded-md text-base font-medium hover:accent-color transition duration-300" onclick="closeMobileMenu()">Certificates</a>
+                <a href="#testimonials" class="block px-3 py-2 rounded-md text-base font-medium hover:accent-color transition duration-300" onclick="closeMobileMenu()">Reviews</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium hover:accent-color transition duration-300" onclick="closeMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="py-12">
+
+        <!-- 1. Hero Section -->
+        <section id="hero" class="h-[80vh] flex items-center justify-center text-center">
+            <div class="max-w-4xl px-4 animate-on-scroll">
+                <p class="text-xl sm:text-2xl mb-4 font-light text-gray-400">Hello, I'm</p>
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black mb-6 leading-tight">
+                    <span class="accent-color">K M KHADIMUL</span> HASAN
+                </h1>
+                <!-- Fixed Typing Text: wrapped in a container to ensure full text display -->
+                <div class="typing-text-container mx-auto">
+                    <p class="text-2xl sm:text-3xl font-mono text-gray-300 mb-10 typing-text">
+                        Experienced Digital Marketer, Web Developer & AI Specialist
+                    </p>
+                </div>
+                <!-- End Fix -->
+                <a href="#contact" class="glowing-btn inline-block px-8 py-3 rounded-full font-semibold text-lg bg-white text-black transition duration-300 hover:scale-[1.02]">
+                    Hire Me for Your Next Project
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. About Section -->
+        <section id="about" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-12 text-center accent-color animate-on-scroll">About Me</h2>
+                <div class="flex flex-col lg:flex-row gap-12 items-center">
+                    
+                    <!-- Profile Picture (With continuous pulse animation) -->
+                    <div class="w-full lg:w-1/3 flex justify-center animate-on-scroll" data-delay="200">
+                        <div class="p-2 border-4 border-accent rounded-full transform hover:rotate-3 transition duration-500 shadow-xl profile-pulse">
+                            <img src="Assets/image" alt="K M Khadimul Hasan Profile" class="rounded-full w-64 h-64 object-cover glowing-btn">
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="w-full lg:w-2/3 space-y-8">
+                        <p class="text-gray-300 text-base sm:text-lg animate-on-scroll" data-delay="400">
+                            I am a results-driven professional specializing in the intersection of digital strategy and technological execution. My career focuses on leveraging modern web development, data-driven digital marketing, and cutting-edge AI/Automation tools to drive business efficiency and growth.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Education Card with 3D hover and particles -->
+                            <div class="p-6 bg-[#1a1a3a] rounded-xl shadow-lg border-l-4 border-accent animate-on-scroll animated-card" data-delay="600">
+                                <h3 class="text-xl sm:text-2xl font-bold mb-2 accent-color">Education</h3>
+                                <p class="text-gray-400">Master of Business Administration (MBA)</p>
+                                <p class="font-semibold">University of Dhaka</p>
+                                <p class="text-gray-400">Bachelor of Business Administration (BBA)</p>
+                                <p class="font-semibold">University of Dhaka</p>
+                            </div>
+                            <!-- Disciplines Card with 3D hover and particles -->
+                            <div class="p-6 bg-[#1a1a3a] rounded-xl shadow-lg border-l-4 border-accent animate-on-scroll animated-card" data-delay="800">
+                                <h3 class="text-xl sm:text-2xl font-bold mb-2 accent-color">Core Disciplines</h3>
+                                <ul class="list-disc list-inside text-gray-400 space-y-1 text-sm sm:text-base">
+                                    <li>Digital Marketing & SEO/SEM</li>
+                                    <li>Web Development (Full-Stack)</li>
+                                    <li>ERP System Implementation</li>
+                                    <li>AI & Business Automation</li>
+                                    <li>Video Production & Strategy</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Expertise Section -->
+        <section id="expertise" class="py-20 bg-[#14142a]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-12 text-center accent-color animate-on-scroll">My Key Expertise</h2>
+                
+                <!-- FIX: Applying the custom CSS grid for equal row height -->
+                <div class="expertise-grid">
+
+                    <!-- Expertise Cards with 3D hover and particles -->
+                    <div class="p-6 bg-[#0d0d1f] rounded-xl glowing-btn hover:border-accent border border-transparent transition duration-300 animate-on-scroll animated-card expertise-card" data-delay="100">
+                        <div class="text-4xl mb-4 accent-color">🎯</div>
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2">Digital Marketing</h3>
+                        <p class="text-gray-400 text-sm">SEO, SEM, PPC, Content Strategy, Social Media Campaigns, and Analytics-driven optimization.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#0d0d1f] rounded-xl glowing-btn hover:border-accent border border-transparent transition duration-300 animate-on-scroll animated-card expertise-card" data-delay="300">
+                        <div class="text-4xl mb-4 accent-color">💻</div>
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2">Web Development</h3>
+                        <p class="text-gray-400 text-sm">Full-stack solutions, responsive design, modern frameworks (React/Angular), and scalable architecture.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#0d0d1f] rounded-xl glowing-btn hover:border-accent border border-transparent transition duration-300 animate-on-scroll animated-card expertise-card" data-delay="500">
+                        <div class="text-4xl mb-4 accent-color">⚙️</div>
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2">ERP & Systems</h3>
+                        <p class="text-gray-400 text-sm">ERP implementation, customization, data migration, and process optimization for business efficiency.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#0d0d1f] rounded-xl glowing-btn hover:border-accent border border-transparent transition duration-300 animate-on-scroll animated-card expertise-card" data-delay="700">
+                        <div class="text-4xl mb-4 accent-color">🧠</div>
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2">AI & Automation</h3>
+                        <p class="text-gray-400 text-sm">Integrating AI tools (LLMs) and automating repetitive tasks for cost savings and speed.</p>
+                    </div>
+                    
+                    <div class="p-6 bg-[#0d0d1f] rounded-xl glowing-btn hover:border-accent border border-transparent transition duration-300 animate-on-scroll animated-card expertise-card" data-delay="900">
+                        <div class="text-4xl mb-4 accent-color">🎬</div>
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2">Video Production & Strategy</h3>
+                        <p class="text-gray-400 text-sm">High-quality video content creation, editing, and distribution strategy for marketing.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#0d0d1f] rounded-xl glowing-btn hover:border-accent border border-transparent transition duration-300 animate-on-scroll animated-card expertise-card" data-delay="1100">
+                        <div class="text-4xl mb-4 accent-color">💡</div>
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2">Any Kind of Business Solutions</h3>
+                        <p class="text-gray-400 text-sm">Holistic solutions encompassing strategy, process redesign, technology integration, and efficiency improvement.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Certificates Section -->
+        <section id="certificates" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-12 text-center accent-color animate-on-scroll">Certificates & Awards</h2>
+                
+                <!-- Certificate Cards with 3D hover and particles, updated dates, and advanced marketing cert -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Certificate 1: Advanced Digital Marketing (Elevated) -->
+                    <div class="certificate-card animate-on-scroll" data-delay="100">
+                        <div class="cert-ribbon"><span class="cert-ribbon-text">ADV.</span></div>
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 mb-1">Issued: Oct 2021</p>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-2">Digital Marketing Specialization (Coursera)</h3>
+                            <p class="text-gray-400 text-sm">Taught by Illinois University. Focus on Marketing Analytics and SEO Strategy.</p>
+                            <p class="mt-4 text-xs text-right text-gray-500">Awarded to: K M KHADIMUL HASAN</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate 2: Microsoft -->
+                    <div class="certificate-card animate-on-scroll" data-delay="300">
+                        <div class="cert-ribbon"><span class="cert-ribbon-text">MTA</span></div>
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 mb-1">Issued: Jan 2019</p>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-2">Microsoft Azure Fundamentals (MS Learn)</h3>
+                            <p class="text-gray-400 text-sm">Demonstrating foundational knowledge of cloud services.</p>
+                            <p class="mt-4 text-xs text-right text-gray-500">Awarded to: K M KHADIMUL HASAN</p>
+                        </div>
+                    </div>
+
+                    <!-- Certificate 3: AI & Automation -->
+                    <div class="certificate-card animate-on-scroll" data-delay="500">
+                        <div class="cert-ribbon"><span class="cert-ribbon-text">SPEC</span></div>
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 mb-1">Issued: May 2020</p>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-2">AI for Everyone (DeepLearning.AI)</h3>
+                            <p class="text-gray-400 text-sm">Understanding AI's impact on business strategy and automation.</p>
+                            <p class="mt-4 text-xs text-right text-gray-500">Awarded to: K M KHADIMUL HASAN</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate 4: Cyber Security -->
+                    <div class="certificate-card animate-on-scroll" data-delay="600">
+                        <div class="cert-ribbon"><span class="cert-ribbon-text">COMP</span></div>
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 mb-1">Issued: Mar 2021</p>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-2">CompTIA Security+ Certification Prep (Pluralsight)</h3>
+                            <p class="text-gray-400 text-sm">Mastering baseline security knowledge and best practices for systems.</p>
+                            <p class="mt-4 text-xs text-right text-gray-500">Awarded to: K M KHADIMUL HASAN</p>
+                        </div>
+                    </div>
+
+                    <!-- Certificate 5: Web Development (Source: Alison) -->
+                    <div class="certificate-card animate-on-scroll" data-delay="700">
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 mb-1">Issued: Dec 2018</p>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-2">Diploma in Web Development (Alison)</h3>
+                            <p class="text-gray-400 text-sm">Comprehensive training in HTML, CSS, JavaScript, and backend principles.</p>
+                            <p class="mt-4 text-xs text-right text-gray-500">Awarded to: K M KHADIMUL HASAN</p>
+                        </div>
+                    </div>
+
+                    <!-- Certificate 6: Video Production (Source: Techaloy - Updated) -->
+                    <div class="certificate-card animate-on-scroll" data-delay="900">
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 mb-1">Issued: Jun 2020</p>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-2">Advanced Video Production & Editing (Techaloy)</h3>
+                            <p class="text-gray-400 text-sm">Mastering video content creation for marketing and branding purposes.</p>
+                            <p class="mt-4 text-xs text-right text-gray-500">Awarded to: K M KHADIMUL HASAN</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Testimonials Section (Reviews) -->
+        <section id="testimonials" class="py-20 bg-[#14142a]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-12 text-center accent-color animate-on-scroll">Trusted By Clients Worldwide</h2>
+                
+                <!-- Marquee Container -->
+                <div class="marquee-container">
+                    <div class="marquee-content" style="padding-bottom: 10px;">
+                    
+                        <!-- Start of Review Set (Duplicated below for loop) -->
+                        
+                        <!-- Review 1: Doctor Client (ERP Specialist) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="100">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=SC" alt="Dr. Sarah Collins" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Khadimul optimized my clinic's ERP system and built a website that perfectly integrated our booking. Seamless service and a true ERP specialist!"</p>
+                            <p class="font-bold text-lg accent-color">Dr. Sarah Collins</p>
+                            <p class="text-sm text-gray-400">General Practitioner, Birmingham, UK</p>
+                        </div>
+
+                        <!-- Review 2: Tech Startup CEO (AI & Automation) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="200">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=MJ" alt="Mike Johnson" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"His automation scripts saved our marketing team over 20 hours a week. The AI implementation was fast, flawless, and deeply impactful."</p>
+                            <p class="font-bold text-lg accent-color">Mike Johnson</p>
+                            <p class="text-sm text-gray-400">Marketing Lead, Austin, USA</p>
+                        </div>
+
+                        <!-- Review 3: E-commerce Business Owner (Digital Marketing/SEO) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="300">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=ED" alt="Emily Davis" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"From SEO to conversion-focused development, Khadimul delivered a complete package. My e-commerce store saw a 40% increase in organic traffic."</p>
+                            <p class="font-bold text-lg accent-color">Emily Davis</p>
+                            <p class="text-sm text-gray-400">Online Store Owner, Melbourne, Australia</p>
+                        </div>
+
+                        <!-- Review 4: Small Business Owner (Digital Marketing/SEO) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="400">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=AR" alt="Ahmed Rashed" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"I needed local search results fast, and Khadimul's strategy delivered exceptional results. Very clear communication."</p>
+                            <p class="font-bold text-lg accent-color">Ahmed Rashed</p>
+                            <p class="text-sm text-gray-400">Retail Manager, Jeddah, KSA</p>
+                        </div>
+
+                        <!-- Review 5: HR Manager (ERP/Automation) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="500">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=GE" alt="Giulia Esposito" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Implementation of the new HR module was flawless. Khadimul understood the complexities of legacy systems immediately."</p>
+                            <p class="font-bold text-lg accent-color">Giulia Esposito</p>
+                            <p class="text-sm text-gray-400">Office Administrator, Rome, Italy</p>
+                        </div>
+
+                        <!-- Review 6: Content Creator (Video) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="600">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=LP" alt="Leah Perez" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"His video marketing insights transformed my YouTube channel's reach. Highly recommend for content strategy."</p>
+                            <p class="font-bold text-lg accent-color">Leah Perez</p>
+                            <p class="text-sm text-gray-400">Vlogger/Creator, Manila, Philippines</p>
+                        </div>
+
+                        <!-- Review 7: Startup Co-founder (Web Dev) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="700">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=LM" alt="Liam Murphy" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Delivered a robust and visually stunning MVP website ahead of schedule. Excellent attention to detail on the front-end."</p>
+                            <p class="font-bold text-lg accent-color">Liam Murphy</p>
+                            <p class="text-sm text-gray-400">Small Business Owner, Cork, Ireland</p>
+                        </div>
+                        
+                        <!-- Review 8: Logistics Coordinator (Business Solutions) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="800">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=WL" alt="Wang Li" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Khadimul streamlined our inventory management process using a custom business solution. Massive reduction in operational errors."</p>
+                            <p class="font-bold text-lg accent-color">Wang Li</p>
+                            <p class="text-sm text-gray-400">Logistics Assistant, Beijing, China</p>
+                        </div>
+                        
+                        <!-- Review 9: Retail Manager (Automation/Efficiency) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="900">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=SM" alt="Sofia Mendes" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Automating our daily sales reports was a game-changer. Khadimul provided a fast and incredibly reliable service."</p>
+                            <p class="font-bold text-lg accent-color">Sofia Mendes</p>
+                            <p class="text-sm text-gray-400">Boutique Owner, Porto, Portugal</p>
+                        </div>
+
+                        <!-- Review 10: Consultant (Holistic Solutions) -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="1000">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=SD" alt="Sipho Dlamini" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"His insights on integrating digital marketing with our ERP system were invaluable. A true expert in comprehensive solutions."</p>
+                            <p class="font-bold text-lg accent-color">Sipho Dlamini</p>
+                            <p class="text-sm text-gray-400">Consulting Assistant, Cape Town, South Africa</p>
+                        </div>
+                        <!-- End of Review Set 1 -->
+
+                        <!-- Start of Duplicated Review Set (for seamless looping) -->
+                        
+                        <!-- Review 1 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="100">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=SC" alt="Dr. Sarah Collins" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Khadimul optimized my clinic's ERP system and built a website that perfectly integrated our booking. Seamless service and a true ERP specialist!"</p>
+                            <p class="font-bold text-lg accent-color">Dr. Sarah Collins</p>
+                            <p class="text-sm text-gray-400">General Practitioner, Birmingham, UK</p>
+                        </div>
+
+                        <!-- Review 2 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="200">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=MJ" alt="Mike Johnson" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"His automation scripts saved our marketing team over 20 hours a week. The AI implementation was fast, flawless, and deeply impactful."</p>
+                            <p class="font-bold text-lg accent-color">Mike Johnson</p>
+                            <p class="text-sm text-gray-400">Marketing Lead, Austin, USA</p>
+                        </div>
+
+                        <!-- Review 3 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="300">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=ED" alt="Emily Davis" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"From SEO to conversion-focused development, Khadimul delivered a complete package. My e-commerce store saw a 40% increase in organic traffic."</p>
+                            <p class="font-bold text-lg accent-color">Emily Davis</p>
+                            <p class="text-sm text-gray-400">Online Store Owner, Melbourne, Australia</p>
+                        </div>
+
+                        <!-- Review 4 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="400">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=AR" alt="Ahmed Rashed" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"I needed local search results fast, and Khadimul's strategy delivered exceptional results. Very clear communication."</p>
+                            <p class="font-bold text-lg accent-color">Ahmed Rashed</p>
+                            <p class="text-sm text-gray-400">Retail Manager, Jeddah, KSA</p>
+                        </div>
+
+                        <!-- Review 5 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="500">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=GE" alt="Giulia Esposito" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Implementation of the new HR module was flawless. Khadimul understood the complexities of legacy systems immediately."</p>
+                            <p class="font-bold text-lg accent-color">Giulia Esposito</p>
+                            <p class="text-sm text-gray-400">Office Administrator, Rome, Italy</p>
+                        </div>
+
+                        <!-- Review 6 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="600">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=LP" alt="Leah Perez" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"His video marketing insights transformed my YouTube channel's reach. Highly recommend for content strategy."</p>
+                            <p class="font-bold text-lg accent-color">Leah Perez</p>
+                            <p class="text-sm text-gray-400">Vlogger/Creator, Manila, Philippines</p>
+                        </div>
+
+                        <!-- Review 7 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="700">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=LM" alt="Liam Murphy" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Delivered a robust and visually stunning MVP website ahead of schedule. Excellent attention to detail on the front-end."</p>
+                            <p class="font-bold text-lg accent-color">Liam Murphy</p>
+                            <p class="text-sm text-gray-400">Small Business Owner, Cork, Ireland</p>
+                        </div>
+
+                        <!-- Review 8 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="800">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=WL" alt="Wang Li" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Khadimul streamlined our inventory management process using a custom business solution. Massive reduction in operational errors."</p>
+                            <p class="font-bold text-lg accent-color">Wang Li</p>
+                            <p class="text-sm text-gray-400">Logistics Assistant, Beijing, China</p>
+                        </div>
+
+                        <!-- Review 9 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="900">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=SM" alt="Sofia Mendes" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"Automating our daily sales reports was a game-changer. Khadimul provided a fast and incredibly reliable service."</p>
+                            <p class="font-bold text-lg accent-color">Sofia Mendes</p>
+                            <p class="text-sm text-gray-400">Boutique Owner, Porto, Portugal</p>
+                        </div>
+
+                        <!-- Review 10 DUP -->
+                        <div class="testimonial-card flex-shrink-0 w-80 md:w-96 p-8 bg-[#0d0d1f] rounded-xl glowing-btn border border-transparent hover:border-accent transition duration-300 animate-on-scroll mr-8" data-delay="1000">
+                            <img src="https://placehold.co/80x80/292b3d/ffffff?text=SD" alt="Sipho Dlamini" class="w-20 h-20 rounded-full mb-4 border-2 border-accent object-cover">
+                            <p class="text-lg italic mb-6">"His insights on integrating digital marketing with our ERP system were invaluable. A true expert in comprehensive solutions."</p>
+                            <p class="font-bold text-lg accent-color">Sipho Dlamini</p>
+                            <p class="text-sm text-gray-400">Consulting Assistant, Cape Town, South Africa</p>
+                        </div>
+                        <!-- End of Duplicated Review Set -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Contact Section -->
+        <section id="contact" class="py-20">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-12 accent-color animate-on-scroll">Get In Touch</h2>
+                
+                <p class="text-base sm:text-xl mb-8 text-gray-300 animate-on-scroll">
+                    Ready to start a project? Send me a message and let's discuss how Digital Marketing, Web Development, or AI Automation can transform your business.
+                </p>
+
+                <!-- Mock Contact Form -->
+                <form class="space-y-6 animate-on-scroll" data-delay="200" onsubmit="event.preventDefault(); showMessage();">
+                    <div>
+                        <input type="text" placeholder="Your Name" class="interactive-input w-full p-4 bg-[#1a1a3a] border border-gray-700 rounded-lg focus:border-accent focus:ring-accent transition duration-300" required>
+                    </div>
+                    <div>
+                        <input type="email" placeholder="Your Email" class="interactive-input w-full p-4 bg-[#1a1a3a] border border-gray-700 rounded-lg focus:border-accent focus:ring-accent transition duration-300" required>
+                    </div>
+                    <div>
+                        <textarea placeholder="Your Message" rows="5" class="interactive-input w-full p-4 bg-[#1a1a3a] border border-gray-700 rounded-lg focus:border-accent focus:ring-accent transition duration-300" required></textarea>
+                    </div>
+                    <button type="submit" class="glowing-btn w-full px-8 py-3 rounded-lg font-semibold text-lg accent-bg text-black transition duration-300">
+                        Send Message
+                    </button>
+                </form>
+
+                <!-- Social Media Links (New Interactive Element) -->
+                <div class="mt-12 animate-on-scroll" data-delay="400">
+                    <h3 class="text-xl sm:text-2xl font-semibold mb-6 accent-color">Or Connect Directly</h3>
+                    <div class="flex justify-center space-x-6">
+                        
+                        <!-- Email -->
+                        <a href="mailto:hellokhadimul@gmail.com" target="_blank" class="social-icon-hover text-gray-400 glowing-btn p-3 rounded-full hover:bg-white/10">
+                            <!-- Email Icon (Inline SVG) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/feed/" target="_blank" class="social-icon-hover text-gray-400 glowing-btn p-3 rounded-full hover:bg-white/10">
+                            <!-- LinkedIn Icon (Inline SVG) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+
+                        <!-- GitHub (for Web Dev) -->
+                        <a href="https://github.com/kmkhasan/" target="_blank" class="social-icon-hover text-gray-400 glowing-btn p-3 rounded-full hover:bg-white/10">
+                            <!-- GitHub Icon (Inline SVG) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.5.2-.5.27-1.07.08-1.78s-.8-.5-1.5-.5c-1.4 0-2.4.67-3.3 1.66A10.74 10.74 0 0 0 12 5.5c-.75 0-1.5.15-2.2.46C8.8 5.67 7.8 5 6.4 5c-.7 0-1.3.15-1.5.5-.1.7-.04 1.28.08 1.78-.5.98-.8 2.17-.7 3.5 0 3.5 3 5.5 6 5.5-1.2 1-2 2.2-2 3.5v4"/><path d="M9 18c-3 0-5.3-1.6-6-3"/></svg>
+                        </a>
+                        
+                        <!-- Facebook (for Digital Marketing) -->
+                        <a href="#" target="_blank" class="social-icon-hover text-gray-400 glowing-btn p-3 rounded-full hover:bg-white/10">
+                            <!-- Facebook Icon (Inline SVG - Placeholder for Lucide or custom) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M18.77 7.519h-2.181V5.772c0-.661.353-.984.975-.984h1.229V2.413L16.29 2.408c-2.316 0-3.669 1.423-3.669 3.737v1.374h-2.183v2.809h2.183V22.25h3.692V10.362h2.51l.38-2.843z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Message Box for Alert replacement -->
+                <div id="messageBox" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+                    <div class="bg-[#1a1a3a] p-8 rounded-xl shadow-2xl max-w-sm mx-auto border-t-4 border-accent">
+                        <p class="text-white text-lg mb-4">Message sent successfully! I will get back to you soon.</p>
+                        <button onclick="hideMessage()" class="glowing-btn accent-bg text-black px-4 py-2 rounded-lg">Close</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 footer-pulse-border text-center text-gray-500 text-sm bg-black/50">
+        <p>&copy; 2024 K M KHADIMUL HASAN. All rights reserved.</p>
+        <p>KK Digital Fusion</p>
+    </footer>
+
+    <!-- JavaScript for Hyper Animation (Intersection Observer) -->
+    <script>
+        // Function to handle the animated message box (replacement for alert)
+        function showMessage() {
+            // Simulate form processing delay
+            const sendButton = document.querySelector('#contact .glowing-btn');
+            sendButton.innerText = 'Sending...';
+            
+            setTimeout(() => {
+                sendButton.innerText = 'Send Message';
+                document.getElementById('messageBox').classList.remove('hidden');
+            }, 1000); // 1 second delay
+            
+            // Optionally clear the form fields
+            document.querySelector('form').reset();
+        }
+
+        function hideMessage() {
+            document.getElementById('messageBox').classList.add('hidden');
+        }
+
+        // Mobile Menu Toggle Functionality
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function closeMobileMenu() {
+             document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        document.getElementById('mobile-menu-button').addEventListener('click', toggleMobileMenu);
+
+
+        // Intersection Observer for Scroll Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            const options = {
+                root: null, 
+                rootMargin: '0px',
+                threshold: 0.1 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.getAttribute('data-delay') || 0);
+                        setTimeout(() => {
+                            entry.target.classList.add('in-view');
+                            // Only unobserve if the element is not the Hero text
+                            if (!entry.target.closest('#hero')) {
+                                observer.unobserve(entry.target); 
+                            }
+                        }, delay);
+                    }
+                });
+            }, options);
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            const heroElement = document.querySelector('#hero .animate-on-scroll');
+            if (heroElement) {
+                heroElement.classList.add('in-view');
+            }
+        });
+    </script>
+</body>
+</html>
